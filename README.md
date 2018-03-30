@@ -12,7 +12,7 @@ PHP integration for [Pagar.me  API](https://docs.pagar.me/api/)
 ## Installation
 Via Composer
 ```sh
-composer require 'pagarme/pagarme-php'
+composer require 'cyberschias/pagarme-php'
 ```
 
 ## Usage
