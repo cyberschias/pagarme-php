@@ -20,31 +20,15 @@ class CreditCardTransactionCreate extends TransactionCreate
     public function getPayload()
     {
         $basicData = parent::getPayload();
+
         $cardData = [
-            'installments'    => $this->transaction->getInstallments(),
-            'capture'         => $this->transaction->isCapturable(),
-            'soft_descriptor' => $this->transaction->getSoftDescriptor(),
-            'async' => $this->transaction->getAsync()
+            'card_number' => $this->transaction->getCardNumber(),
+            'card_cvv' => $this->transaction->getCardCcv(),
+            'card_expiration_date' => $this->transaction->getCardExpirationDate(),
+            'card_holder_name' => $this->transaction->getCardHolderName(),
+            'installments' => $this->transaction->getInstallments(),
         ];
 
-        if (!is_null($this->transaction->getCardCvv())) {
-            $cardData['card_cvv'] = $this->transaction->getCardCvv();
-        }
-
-        return array_merge($basicData, $cardData, $this->getCardInfo());
-    }
-
-    /**
-     * @return array
-     */
-    private function getCardInfo()
-    {
-        if (!is_null($this->transaction->getCardId())) {
-            return ['card_id' => $this->transaction->getCardId()];
-        }
-
-        if (!is_null($this->transaction->getCardHash())) {
-            return ['card_hash' => $this->transaction->getCardHash()];
-        }
+        return array_merge($basicData, $cardData);
     }
 }

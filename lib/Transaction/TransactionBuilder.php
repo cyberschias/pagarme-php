@@ -37,10 +37,6 @@ trait TransactionBuilder
             );
         }
 
-        if (isset($transactionData->card)) {
-            $transactionData->card = $this->buildCard((object) $transactionData->card);
-        }
-
         if ($transactionData->payment_method == BoletoTransaction::PAYMENT_METHOD) {
             $transactionData->boleto_expiration_date = new \DateTime(
                 $transactionData->boleto_expiration_date

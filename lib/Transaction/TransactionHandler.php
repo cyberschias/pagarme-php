@@ -28,37 +28,40 @@ class TransactionHandler extends AbstractHandler
     use \PagarMe\Sdk\Event\EventBuilder;
 
     /**
-     * @param int $amount
-     * @param \PagarMe\Sdk\Card\Card $card
      * @param \PagarMe\Sdk\Customer\Customer $customer
+     * @param int $amount
+     * @param string $card_number,
+     * @param string $card_cvv,
+     * @param string $card_expiration_date,
+     * @param string $card_holder_name,
      * @param int $installments
-     * @param boolean $capture
-     * @param string $postBackUrl
-     * @param array $metadata
-     * @param array $extraAttributes
+     * @param array $billing
+     * @param array of Item $items
      * @return CreditCardTransaction
      */
     public function creditCardTransaction(
-        $amount,
-        Card $card,
         Customer $customer,
+        $amount,
+        $card_number,
+        $card_cvv,
+        $card_expiration_date,
+        $card_holder_name,
         $installments = 1,
-        $capture = true,
-        $postBackUrl = null,
-        $metadata = null,
-        $extraAttributes = []
+        $billing,
+        $items
     ) {
         $transactionData = array_merge(
             [
-                'amount'       => $amount,
-                'card'         => $card,
-                'customer'     => $customer,
+                'customer' => $customer,
+                'amount' => $amount,
+                'card_number' => $card_number,
+                'card_cvv' => $card_cvv,
+                'card_expiration_date' => $card_expiration_date,
+                'card_holder_name' => $card_holder_name,
                 'installments' => $installments,
-                'capture'      => $capture,
-                'postbackUrl'  => $postBackUrl,
-                'metadata'     => $metadata
-            ],
-            $extraAttributes
+                'billing' => $billing,
+                'items' => $items,
+            ]
         );
 
         $transaction = new CreditCardTransaction($transactionData);
@@ -69,21 +72,19 @@ class TransactionHandler extends AbstractHandler
     }
 
     /**
-     * @param int $amount
      * @param \PagarMe\Sdk\Customer\Customer $customer
+     * @param int $amount
      * @param string $boleto_instructions
      * @param string $boleto_expiration_date
-     * @param string $postback_url
      * @param array $billing
      * @param array of Item $items
      * @return BoletoTransaction
      */
     public function boletoTransaction(
-        $amount,
         Customer $customer,
+        $amount,
         $boleto_instructions,
         $boleto_expiration_date,
-        $postback_url,
         $billing,
         $items
     ) {
@@ -92,7 +93,6 @@ class TransactionHandler extends AbstractHandler
                 'amount'      => $amount,
                 'customer'    => $customer,
                 'boleto_expiration_date' => $boleto_expiration_date,
-                'postback_url' => $postback_url,
                 'billing' => $billing,
                 'items' => $items,
             ]

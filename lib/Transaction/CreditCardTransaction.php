@@ -7,29 +7,29 @@ class CreditCardTransaction extends AbstractTransaction
     const PAYMENT_METHOD = 'credit_card';
 
     /**
-     * @var \PagarMe\Sdk\Card\Card
+     * @var string $card_number
      */
-    protected $card;
+    protected $card_number;
 
     /**
-     * @var int
+     * @var string $card_cvv
+     */
+    protected $card_cvv;
+
+    /**
+     * @var string $card_expiration_date
+     */
+    protected $card_expiration_date;
+
+    /**
+     * @var string $card_holder_name
+     */
+    protected $card_holder_name;
+
+    /**
+     * @var string $installments
      */
     protected $installments;
-
-    /**
-     * @var boolean
-     */
-    protected $capture;
-
-    /**
-     * @var string
-     */
-    protected $cardCvv;
-
-    /**
-     * @var boolean
-     */
-    protected $async;
 
     /**
      * @param array $transactionData
@@ -40,26 +40,45 @@ class CreditCardTransaction extends AbstractTransaction
         $this->paymentMethod = self::PAYMENT_METHOD;
     }
 
+
     /**
-     * @return int
+     * @return string
      * @codeCoverageIgnore
      */
-    public function getCardId()
+    public function getCardNumber()
     {
-        return $this->card->getId();
+        return $this->card_number;
     }
 
     /**
      * @return string
      * @codeCoverageIgnore
      */
-    public function getCardHash()
+    public function getCardCcv()
     {
-        return $this->card->getHash();
+        return $this->card_cvv;
     }
 
     /**
-     * @return int
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getCardExpirationDate()
+    {
+        return $this->card_expiration_date;
+    }
+
+    /**
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getCardHolderName()
+    {
+        return $this->card_holder_name;
+    }
+
+    /**
+     * @return string
      * @codeCoverageIgnore
      */
     public function getInstallments()
@@ -67,30 +86,5 @@ class CreditCardTransaction extends AbstractTransaction
         return $this->installments;
     }
 
-    /**
-     * @return string
-     * @codeCoverageIgnore
-     */
-    public function getCardCvv()
-    {
-        return $this->cardCvv;
-    }
 
-    /**
-     * @return boolean
-     * @codeCoverageIgnore
-     */
-    public function isCapturable()
-    {
-        return (bool) $this->capture;
-    }
-
-    /**
-     * @return boolean
-     * @codeCoverageIgnore
-     */
-    public function getAsync()
-    {
-        return $this->async;
-    }
 }
