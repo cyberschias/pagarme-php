@@ -30,32 +30,32 @@ abstract class AbstractTransaction
     /**
      * @var string
      */
-    protected $refuseReason;
+    protected $refuse_reason;
 
     /**
      * @var string
      */
-    protected $statusReason;
+    protected $status_reason;
 
     /**
      * @var string
      */
-    protected $acquirerName;
+    protected $acquirer_name;
 
     /**
      * @var string
      */
-    protected $acquirerResponseCode;
+    protected $acquirer_response_code;
 
     /**
      * @var string
      */
-    protected $authorizationCode;
+    protected $authorization_code;
 
     /**
      * @var string
      */
-    protected $softDescriptor;
+    protected $soft_descriptor;
 
     /**
      * @var string
@@ -70,12 +70,12 @@ abstract class AbstractTransaction
     /**
      * @var \DateTime
      */
-    protected $dateCreated;
+    protected $date_created;
 
     /**
      * @var \DateTime
      */
-    protected $dateUpdated;
+    protected $date_updated;
 
     /**
      * @var int
@@ -90,17 +90,17 @@ abstract class AbstractTransaction
     /**
      * @var string
      */
-    protected $postbackUrl;
+    protected $postback_url;
 
     /**
      * @var string
      */
-    protected $paymentMethod;
+    protected $payment_method;
 
     /**
      * @var int
      */
-    protected $antifraudScore;
+    protected $antifraud_score;
 
     /**
      * @var string
@@ -115,7 +115,7 @@ abstract class AbstractTransaction
     /**
      * @var int
      */
-    protected $subscriptionId;
+    protected $subscription_id;
 
     /**
      * @var \PagarMe\Sdk\Customer\Phone
@@ -123,9 +123,19 @@ abstract class AbstractTransaction
     protected $phone;
 
     /**
-     * @var \PagarMe\Sdk\Customer\Address
+     * @var \PagarMe\Sdk\Transaction\Address
      */
-    protected $address;
+    protected $shipping;
+
+    /**
+     * @var array
+     */
+    protected $billing;
+
+    /**
+     * @var string of \PagarMe\Sdk\Transaction\Item
+     */
+    protected $items;
 
     /**
      * @var \PagarMe\Sdk\Customer\Customer
@@ -140,17 +150,17 @@ abstract class AbstractTransaction
     /**
      * @var int
      */
-    protected $paidAmount;
+    protected $paid_amount;
 
     /**
      * @var int
      */
-    protected $refundedAmount;
+    protected $refunded_amount;
 
     /**
      * @var \PagarMe\Sdk\SplitRule\SplitRuleCollection
      */
-    protected $splitRules;
+    protected $split_rules;
 
     /**
      * @var string
@@ -184,12 +194,30 @@ abstract class AbstractTransaction
     }
 
     /**
+     * @return array
+     * @codeCoverageIgnore
+     */
+    public function getBilling()
+    {
+        return $this->billing;
+    }
+
+    /**
+     * @return array
+     * @codeCoverageIgnore
+     */
+    public function getItems()
+    {
+        return (array)$this->items;
+    }
+
+    /**
      * @return string
      * @codeCoverageIgnore
      */
     public function getRefuseReason()
     {
-        return $this->refuseReason;
+        return $this->refuse_reason;
     }
 
     /**
@@ -198,7 +226,7 @@ abstract class AbstractTransaction
      */
     public function getStatusReason()
     {
-        return $this->statusReason;
+        return $this->status_reason;
     }
 
     /**
@@ -207,7 +235,7 @@ abstract class AbstractTransaction
      */
     public function getAcquirerName()
     {
-        return $this->acquirerName;
+        return $this->acquirer_name;
     }
 
     /**
@@ -216,7 +244,7 @@ abstract class AbstractTransaction
      */
     public function getAcquirerResponseCode()
     {
-        return $this->acquirerResponseCode;
+        return $this->acquirer_response_code;
     }
 
     /**
@@ -225,7 +253,7 @@ abstract class AbstractTransaction
      */
     public function getAuthorizationCode()
     {
-        return $this->authorizationCode;
+        return $this->authorization_code;
     }
 
     /**
@@ -234,7 +262,7 @@ abstract class AbstractTransaction
      */
     public function getSoftDescriptor()
     {
-        return $this->softDescriptor;
+        return $this->soft_descriptor;
     }
 
     /**
@@ -261,7 +289,7 @@ abstract class AbstractTransaction
      */
     public function getDateCreated()
     {
-        return $this->dateCreated;
+        return $this->date_created;
     }
 
     /**
@@ -270,7 +298,7 @@ abstract class AbstractTransaction
      */
     public function getDateUpdated()
     {
-        return $this->dateUpdated;
+        return $this->date_updated;
     }
 
     /**
@@ -306,7 +334,7 @@ abstract class AbstractTransaction
      */
     public function getPostbackUrl()
     {
-        return $this->postbackUrl;
+        return $this->postback_url;
     }
 
     /**
@@ -315,7 +343,7 @@ abstract class AbstractTransaction
      */
     public function getPaymentMethod()
     {
-        return $this->paymentMethod;
+        return $this->payment_method;
     }
 
     /**
@@ -324,7 +352,7 @@ abstract class AbstractTransaction
      */
     public function getAntifraudScore()
     {
-        return $this->antifraudScore;
+        return $this->antifraud_score;
     }
 
     /**
@@ -351,7 +379,7 @@ abstract class AbstractTransaction
      */
     public function getSubscriptionId()
     {
-        return $this->subscriptionId;
+        return $this->subscription_id;
     }
 
     /**
@@ -405,7 +433,7 @@ abstract class AbstractTransaction
      */
     public function getPaidAmount()
     {
-        return $this->paidAmount;
+        return $this->paid_amount;
     }
 
     /**
@@ -414,7 +442,7 @@ abstract class AbstractTransaction
      */
     public function getRefundedAmount()
     {
-        return $this->refundedAmount;
+        return $this->refunded_amount;
     }
 
     /**
@@ -479,7 +507,7 @@ abstract class AbstractTransaction
      */
     public function getSplitRules()
     {
-        return $this->splitRules;
+        return $this->split_rules;
     }
 
     /**

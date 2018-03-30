@@ -1,6 +1,6 @@
 <?php
 
-namespace PagarMe\Sdk\Customer;
+namespace PagarMe\Sdk\Transaction;
 
 class Address
 {
@@ -14,7 +14,7 @@ class Address
     /**
      * @var string
      */
-    private $streetNumber;
+    private $street_number;
 
     /**
      * @var string
@@ -25,11 +25,6 @@ class Address
      * @var string
      */
     private $zipcode;
-
-    /**
-     * @var string
-     */
-    private $complementary;
 
     /**
      * @var string
@@ -69,7 +64,7 @@ class Address
      */
     public function getStreetNumber()
     {
-        return $this->streetNumber;
+        return $this->street_number;
     }
 
     /**
@@ -90,14 +85,6 @@ class Address
         return $this->zipcode;
     }
 
-    /**
-     * @return string
-     * @codeCoverageIgnore
-     */
-    public function getComplementary()
-    {
-        return $this->complementary;
-    }
 
     /**
      * @return string

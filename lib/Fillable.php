@@ -11,9 +11,7 @@ trait Fillable
      */
     private function fill($arrayData)
     {
-        foreach ($arrayData as $key => $value) {
-            $field = $this->snakeToLowerCamel($key);
-
+        foreach ($arrayData as $field => $value) {
             if (property_exists($this, $field)) {
                 $this->$field = $value;
             }

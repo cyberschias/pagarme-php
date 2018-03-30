@@ -71,26 +71,31 @@ class TransactionHandler extends AbstractHandler
     /**
      * @param int $amount
      * @param \PagarMe\Sdk\Customer\Customer $customer
-     * @param string $postBackUrl
-     * @param mixed $metadata
-     * @param array $extraAttributes
+     * @param string $boleto_instructions
+     * @param string $boleto_expiration_date
+     * @param string $postback_url
+     * @param array $billing
+     * @param array of Item $items
      * @return BoletoTransaction
      */
     public function boletoTransaction(
         $amount,
         Customer $customer,
-        $postBackUrl,
-        $metadata = null,
-        $extraAttributes = []
+        $boleto_instructions,
+        $boleto_expiration_date,
+        $postback_url,
+        $billing,
+        $items
     ) {
         $transactionData = array_merge(
             [
                 'amount'      => $amount,
                 'customer'    => $customer,
-                'postbackUrl' => $postBackUrl,
-                'metadata'    => $metadata
-            ],
-            $extraAttributes
+                'boleto_expiration_date' => $boleto_expiration_date,
+                'postback_url' => $postback_url,
+                'billing' => $billing,
+                'items' => $items,
+            ]
         );
 
         $transaction = new BoletoTransaction($transactionData);
@@ -168,6 +173,11 @@ class TransactionHandler extends AbstractHandler
     ) {
         $request = new TransactionCapture($transaction, $amount, $metadata, $splitRules);
         $response = $this->client->send($request);
+
+        echo '<pre>';
+        print_r($response);
+        echo '</pre>';
+        exit;
 
         return $this->buildTransaction($response);
     }

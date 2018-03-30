@@ -7,54 +7,51 @@ class Customer
     use \PagarMe\Sdk\Fillable;
 
     /**
-     * @var int
+     * @var int | Gerado pela Pagar.me
      */
     private $id;
 
     /**
-     * @var PagarMe\Sdk\Customer\Address
+     * @var string | Obrigatório - Identificador do cliente na loja
      */
-    private $address;
+    private $external_id;
 
     /**
-     * @var string
-     */
-    private $bornAt;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateCreated;
-
-    /**
-     * @var int
-     */
-    private $documentNumber;
-
-    /**
-     * @var string
-     */
-    private $documentType;
-
-    /**
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @var string
-     */
-    private $gender;
-
-    /**
-     * @var string
+     * @var string | Obrigatório - Nome ou razão social do comprador
      */
     private $name;
 
     /**
-     * @var PagarMe\Sdk\Customer\Phone
+     * @var string | Obrigatório - E-mail do comprador
      */
-    private $phone;
+    private $email;
+
+    /**
+     * @var string | Obrigatório - Tipo de documento.
+     * Deve ser individual para pessoa física ou corporation para pessoa jurídica
+     */
+    private $type;
+
+    /**
+     * @var string | Obrigatório - País. Duas letras minúsculas, seguindo o padrão ISO 3166-1 alpha-2
+     */
+    private $country;
+
+    /**
+     * @var string | Data de nascimento. Deve seguir o formato AAAA-MM-DD.
+     * Por exemplo, para 20/12/1990 birthday seria 1990-12-20
+     */
+    private $birthday;
+
+    /**
+     * @var array | Obrigatório. Telefone. Requer ao menos um valor. Deve seguir o padrão E.164
+     */
+    private $phone_numbers;
+
+    /**
+     * @var Document | Documento. Contém campos type para tipo de documento e number para número do documento.
+     */
+    private $documents;
 
     /**
      * @param array $arrayData
@@ -75,20 +72,52 @@ class Customer
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return int
      */
-    public function getBornAt()
+    public function getExternalId()
     {
-        return $this->bornAt;
+        return $this->external_id;
     }
 
     /**
      * @codeCoverageIgnore
-     * @return int
+     * @return string
      */
-    public function getDocumentNumber()
+    public function getBirthday()
     {
-        return $this->documentNumber;
+        return $this->birthday;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return Document
+     */
+    public function getDocuments()
+    {
+        $documentsData = [
+            'type' => $this->documents->getType(),
+            'number' => $this->documents->getNumber()
+        ];
+
+        return array($documentsData);
     }
 
     /**
@@ -104,15 +133,6 @@ class Customer
      * @codeCoverageIgnore
      * @return string
      */
-    public function getGender()
-    {
-        return $this->gender;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return string
-     */
     public function getName()
     {
         return $this->name;
@@ -120,37 +140,10 @@ class Customer
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return array
      */
-    public function getAddress()
+    public function getPhoneNumbers()
     {
-        return $this->address;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return object
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return string
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return string
-     */
-    public function getDocumentType()
-    {
-        return $this->documentType;
+        return $this->phone_numbers;
     }
 }

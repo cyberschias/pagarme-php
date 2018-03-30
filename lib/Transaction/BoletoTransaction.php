@@ -9,17 +9,17 @@ class BoletoTransaction extends AbstractTransaction
     /**
      * @var string
      */
-    protected $boletoUrl;
+    protected $boleto_url;
 
     /**
      * @var string
      */
-    protected $boletoBarcode;
+    protected $boleto_barcode;
 
     /**
      * @var \DateTime
      */
-    protected $boletoExpirationDate;
+    protected $boleto_expiration_date;
 
     /**
      * @var boolean
@@ -34,7 +34,7 @@ class BoletoTransaction extends AbstractTransaction
     /**
      * @var string
      */
-    protected $boletoInstructions;
+    protected $boleto_instructions;
 
     /**
      * @param array $transactionData
@@ -42,7 +42,7 @@ class BoletoTransaction extends AbstractTransaction
     public function __construct($transactionData)
     {
         parent::__construct($transactionData);
-        $this->paymentMethod = self::PAYMENT_METHOD;
+        $this->payment_method = self::PAYMENT_METHOD;
     }
 
     /**
@@ -51,7 +51,7 @@ class BoletoTransaction extends AbstractTransaction
      */
     public function getBoletoExpirationDate()
     {
-        return $this->boletoExpirationDate;
+        return $this->boleto_expiration_date;
     }
 
     /**
@@ -60,7 +60,7 @@ class BoletoTransaction extends AbstractTransaction
      */
     public function getBoletoUrl()
     {
-        return $this->boletoUrl;
+        return $this->boleto_url;
     }
 
     /**
@@ -69,7 +69,7 @@ class BoletoTransaction extends AbstractTransaction
      */
     public function getBoletoBarcode()
     {
-        return $this->boletoBarcode;
+        return $this->boleto_barcode;
     }
 
     /**
@@ -87,7 +87,7 @@ class BoletoTransaction extends AbstractTransaction
      */
     public function getSoftDescriptor()
     {
-        return $this->softDescriptor;
+        return $this->soft_descriptor;
     }
 
     /**
@@ -96,6 +96,6 @@ class BoletoTransaction extends AbstractTransaction
      */
     public function getBoletoInstructions()
     {
-        return $this->boletoInstructions;
+        return $this->boleto_instructions;
     }
 }

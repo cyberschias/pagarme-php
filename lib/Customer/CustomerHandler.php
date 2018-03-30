@@ -15,31 +15,34 @@ class CustomerHandler extends AbstractHandler
     use CustomerBuilder;
 
     /**
-     * @param string $name
-     * @param string $email
-     * @param int $documentNumber
-     * @param Address $address
-     * @param Phone $phone
-     * @param string $bornAt
-     * @param string $gender
+     * @param string $name Obrigatório - Nome ou razão social do comprador
+     * @param string $email Obrigatório - E-mail do comprador
+     * @param string $external_id Obrigatório - Identificador do cliente na loja
+     * @param string $type Obrigatório - Tipo de documento. Deve ser individual para pessoa física ou corporation para pessoa jurídica
+     * @param string $country - Obrigatório - País. Duas letras minúsculas, seguindo o padrão ISO 3166-1 alpha-2
+     * @param string $birthday - Data de nascimento. Deve seguir o formato AAAA-MM-DD. Por exemplo, para 20/12/1990 birthday seria 1990-12-20
+     * @param array  $phone_numbers - Obrigatório. Telefone. Requer ao menos um valor. Deve seguir o padrão E.164
+     * @param Document  $documents - Documento. Contém campos type para tipo de documento e number para número do documento.
      */
     public function create(
         $name,
         $email,
-        $documentNumber,
-        Address $address,
-        Phone $phone,
-        $bornAt = null,
-        $gender = null
+        $external_id,
+        $type,
+        $country,
+        $birthday = null,
+        $phone_numbers,
+        Document $documents
     ) {
         $request = new CustomerCreate(
             $name,
             $email,
-            $documentNumber,
-            $address,
-            $phone,
-            $bornAt,
-            $gender
+            $external_id,
+            $type,
+            $country,
+            $birthday,
+            $phone_numbers,
+            $documents
         );
 
         $response = $this->client->send($request);

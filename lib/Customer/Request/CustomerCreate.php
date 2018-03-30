@@ -2,72 +2,84 @@
 
 namespace PagarMe\Sdk\Customer\Request;
 
+use PagarMe\Sdk\Customer\Document;
 use PagarMe\Sdk\RequestInterface;
 use PagarMe\Sdk\Customer\Address;
 use PagarMe\Sdk\Customer\Phone;
 
 class CustomerCreate implements RequestInterface
 {
+    /**
+     * @var string | Obrigatório - Identificador do cliente na loja
+     */
+    private $external_id;
+
      /**
-     * @var string | Nome ou razão social do comprador
+     * @var string | Obrigatório - Nome ou razão social do comprador
      */
     private $name;
 
      /**
-     * @var string | E-mail do comprador
+     * @var string | Obrigatório - E-mail do comprador
      */
     private $email;
 
      /**
-     * @var int | Número do CPF ou CNPJ do cliente
+     * @var string | Obrigatório - Tipo de documento.
+     * Deve ser individual para pessoa física ou corporation para pessoa jurídica
      */
-    private $documentNumber;
-
-     /**
-     * @var Address | Endereço do comprador
-     */
-    private $address;
-
-     /**
-     * @var Phone | Telefone do comprador
-     */
-    private $phone;
-
-     /**
-     * @var string | Data de nascimento ex: '13121988'
-     */
-    private $bornAt;
-
-     /**
-     * @var string | Gênero
-     */
-    private $gender;
+    private $type;
 
     /**
-     * @param string $name
-     * @param string $email
-     * @param int $documentNumber
-     * @param Address $address
-     * @param Phone $phone
-     * @param string $bornAt
-     * @param string $gender
+     * @var string | Obrigatório - País. Duas letras minúsculas, seguindo o padrão ISO 3166-1 alpha-2
+     */
+    private $country;
+
+    /**
+     * @var string | Data de nascimento. Deve seguir o formato AAAA-MM-DD.
+     * Por exemplo, para 20/12/1990 birthday seria 1990-12-20
+     */
+    private $birthday;
+
+     /**
+     * @var array | Obrigatório. Telefone. Requer ao menos um valor. Deve seguir o padrão E.164
+     */
+    private $phone_numbers;
+
+    /**
+     * @var array | Documento. Contém campos type para tipo de documento e number para número do documento.
+     */
+    private $documents;
+
+
+    /**
+     * @param string $name Obrigatório - Nome ou razão social do comprador
+     * @param string $email Obrigatório - E-mail do comprador
+     * @param string $external_id Obrigatório - Identificador do cliente na loja
+     * @param string $type Obrigatório - Tipo de documento. Deve ser individual para pessoa física ou corporation para pessoa jurídica
+     * @param string $country - Obrigatório - País. Duas letras minúsculas, seguindo o padrão ISO 3166-1 alpha-2
+     * @param string $birthday - Data de nascimento. Deve seguir o formato AAAA-MM-DD. Por exemplo, para 20/12/1990 birthday seria 1990-12-20
+     * @param array  $phone_numbers - Obrigatório. Telefone. Requer ao menos um valor. Deve seguir o padrão E.164
+     * @param array  $documents - Documento. Contém campos type para tipo de documento e number para número do documento.
      */
     public function __construct(
         $name,
         $email,
-        $documentNumber,
-        Address $address,
-        Phone $phone,
-        $bornAt,
-        $gender
+        $external_id,
+        $type,
+        $country,
+        $birthday,
+        $phone_numbers,
+        $documents
     ) {
-        $this->name           = $name;
-        $this->email          = $email;
-        $this->documentNumber = $documentNumber;
-        $this->address        = $address;
-        $this->phone          = $phone;
-        $this->bornAt         = $bornAt;
-        $this->gender         = $gender;
+        $this->name = $name;
+        $this->email = $email;
+        $this->external_id = $external_id;
+        $this->type = $type;
+        $this->country = $country;
+        $this->birthday = $birthday;
+        $this->phone_numbers = $phone_numbers;
+        $this->documents = $documents;
     }
 
     /**
@@ -76,13 +88,14 @@ class CustomerCreate implements RequestInterface
     public function getPayload()
     {
         return [
-            'name'            => $this->name,
-            'email'           => $this->email,
-            'document_number' => $this->documentNumber,
-            'address'         => $this->getAddresssData(),
-            'phone'           => $this->getPhoneData(),
-            'born_at'         => $this->bornAt,
-            'gender'          => $this->gender
+            'name'        => $this->name,
+            'email'       => $this->email,
+            'external_id' => $this->external_id,
+            'type'        => $this->type,
+            'country'     => $this->country,
+            'birthday'    => $this->birthday,
+            'phone_numbers' => $this->phone_numbers,
+            'documents'   => $this->getDocumentsData(),
         ];
     }
 
@@ -105,48 +118,13 @@ class CustomerCreate implements RequestInterface
     /**
      *  @return array
      */
-    private function getAddresssData()
+    private function getDocumentsData()
     {
-        $addressData = [
-            'street'        => $this->address->getStreet(),
-            'street_number' => $this->address->getStreetNumber(),
-            'neighborhood'  => $this->address->getNeighborhood(),
-            'zipcode'       => $this->address->getZipcode()
+        $documentsData = [
+            'type' => $this->documents->getType(),
+            'number' => $this->documents->getNumber()
         ];
 
-        if (!is_null($this->address->getComplementary())) {
-            $addressData['complementary'] = $this->address->getComplementary();
-        }
-
-        if (!is_null($this->address->getCity())) {
-            $addressData['city'] = $this->address->getCity();
-        }
-
-        if (!is_null($this->address->getState())) {
-            $addressData['state'] = $this->address->getState();
-        }
-
-        if (!is_null($this->address->getCountry())) {
-            $addressData['country'] = $this->address->getCountry();
-        }
-
-        return $addressData;
-    }
-
-    /**
-     *  @return array
-     */
-    private function getPhoneData()
-    {
-        $phoneData = [
-            'ddd'    => $this->phone->getDdd(),
-            'number' => $this->phone->getNumber()
-        ];
-
-        if (!is_null($this->phone->getDdi())) {
-            $phoneData['ddi'] = $this->phone->getDdi();
-        }
-
-        return $phoneData;
+        return array($documentsData);
     }
 }

@@ -37,26 +37,21 @@ class TransactionCreate implements RequestInterface
             'amount'         => $this->transaction->getAmount(),
             'payment_method' => $this->transaction->getPaymentMethod(),
             'postback_url'   => $this->transaction->getPostbackUrl(),
-            'metadata' => $this->transaction->getMetadata()
+            'metadata' => $this->transaction->getMetadata(),
+            'billing' => $this->transaction->getBilling(),
+            'items' => $this->transaction->getItems()
         ];
 
         $customerData = [
-            'name'            => $customer->getName(),
-            'document_number' => $customer->getDocumentNumber(),
-            'email'           => $customer->getEmail(),
-            'sex'             => $customer->getGender(),
-            'born_at'         => $customer->getBornAt()
+            'name'        => $customer->getName(),
+            'email'       => $customer->getEmail(),
+            'external_id' => $customer->getExternalId(),
+            'type'        => $customer->getType(),
+            'country'     => $customer->getCountry(),
+            'birthday'    => $customer->getBirthday(),
+            'phone_numbers' => $customer->getPhoneNumbers(),
+            'documents'   => $customer->getDocuments(),
         ];
-
-        if (!is_null($customer->getId())) {
-            $customerData['id'] = $customer->getId();
-        }
-
-        $customerData = array_merge(
-            $customerData,
-            $this->getCustomerAddressData($customer),
-            $this->getCustomerPhoneData($customer)
-        );
 
         $transactionData['customer'] = $customerData;
 

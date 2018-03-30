@@ -17,17 +17,15 @@ class CardContext extends BasicContext
     private $number;
     private $holder;
     private $expiration;
-    private $cvv;
 
     /**
-     * @Given a card with :number, :holder, :expiration and :cvv
+     * @Given a card with :number, :holder and :expiration
      */
-    public function aCardWithAnd($number, $holder, $expiration, $cvv)
+    public function aCardWithAnd($number, $holder, $expiration)
     {
         $this->number     = $number;
         $this->holder     = $holder;
         $this->expiration = $expiration;
-        $this->cvv        = $cvv;
     }
 
     /**
@@ -40,8 +38,7 @@ class CardContext extends BasicContext
             ->create(
                 $this->number,
                 $this->holder,
-                $this->expiration,
-                $this->cvv
+                $this->expiration
             );
     }
 
@@ -73,13 +70,5 @@ class CardContext extends BasicContext
     public function iShouldHaveTheSameCard()
     {
         assertEquals($this->createdCard->getId(), $this->queryCard->getId());
-    }
-
-    /**
-     * @And the card must be valid
-     */
-    public function theCardMustBeValid()
-    {
-        assertEquals($this->createdCard->getValid(), true);
     }
 }

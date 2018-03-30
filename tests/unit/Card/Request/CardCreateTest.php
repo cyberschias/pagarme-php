@@ -11,7 +11,6 @@ class CardCreateTest extends \PHPUnit_Framework_TestCase
     const CARD_NUMBER     = '4539401723324663';
     const CARD_HOLDER     = 'João Silva';
     const CARD_EXPIRATION = '0423';
-    const CARD_CVV        = 123;
 
     /**
      * @test
@@ -21,16 +20,14 @@ class CardCreateTest extends \PHPUnit_Framework_TestCase
         $cardCreate = new CardCreate(
             self::CARD_NUMBER,
             self::CARD_HOLDER,
-            self::CARD_EXPIRATION,
-            self::CARD_CVV
+            self::CARD_EXPIRATION
         );
 
         $this->assertEquals(
             [
                 'card_number'          => self::CARD_NUMBER,
                 'holder_name'          => self::CARD_HOLDER,
-                'card_expiration_date' => self::CARD_EXPIRATION,
-                'card_cvv'             => self::CARD_CVV
+                'card_expiration_date' => self::CARD_EXPIRATION
             ],
             $cardCreate->getPayload()
         );
